@@ -12,11 +12,14 @@ function read_json()
 end
 
 function parse_json_energy(json_file, time_limit)
-    t_1 = datetime2unix(now())
-    t = round(Int, t_1)
-    t = 1697725283
+    
+    
+
 
     arr = json_file["logs"]
+
+    #t_1 = datetime2unix(now())
+    t = round(Int, last(arr)["time"])
 
     averaging_steps::Int16 = 60
     energy_averages = Int128[0 for i in 1:(time_limit/averaging_steps)]
@@ -58,11 +61,11 @@ function parse_json_energy(json_file, time_limit)
 end
 
 function parse_json_mspt(json_file, time_limit)
-    t_1 = datetime2unix(now())
-    t = round(Int, t_1)
-    t = 1697725283
 
     arr = json_file["logs"]
+
+    t_1 = datetime2unix(now())
+    t = round(Int, last(arr)["time"])
 
     averaging_steps::Int16 = 60
     energy_averages = Float64[0 for i in 1:(time_limit/averaging_steps)]
