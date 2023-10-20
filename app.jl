@@ -12,8 +12,8 @@ function read_json()
 end
 
 function parse_json_energy(json_file, time_limit)
-    
-    
+
+
 
 
     arr = json_file["logs"]
@@ -137,6 +137,44 @@ function get_mspt_trace(time_limit)
 
 end
 
+function set_energy_plot(energy_time, type)
+    if type == "energy"
+        plotdata = [get_energy_trace(energy_time * 60 * 60)]
+        title = "Wireless Energy Stored in EU"
+    elseif type == "mspt"
+        plotdata = [get_mspt_trace(energy_time * 60 * 60)]
+        title = "Tick Time in ms"
+    end
+
+    hours = energy_time
+
+    tick_vals = [(i) * 60 for i in 0:hours]
+    tick_labels = [Dates.format(Dates.now() - Hour(i), "HH:MM") for i in reverse(0:hours)]
+
+    layout_ = PlotlyBase.Layout(
+        title="$title, $hours Hours",
+        colorway="black", plot_bgcolor="white",
+        xaxis=Dict(
+            :linecolor => "black",
+            :showgrid => false,
+            :zeroline => true,
+            :dtick => "M1",
+            :tickvals => tick_vals,
+            :ticktext => tick_labels
+        ),
+        yaxis=Dict(
+            :showgrid => false,
+            :gridcolor => "black",
+            :linecolor => "black",
+            :zeroline => true,
+            :showexponent => "all",
+            :exponentformat => "e"
+        )
+    )
+
+    return plotdata, layout_
+end
+
 
 plotlayout_ = PlotlyBase.Layout(
     title="test")
@@ -154,18 +192,7 @@ plotlayout_ = PlotlyBase.Layout(
     @in time_limit_energy = 1
     @out plotdata_ = []
     @out plotlayout_ = PlotlyBase.Layout(
-        title="Wireless Energy Stored",
-        colorway="black", plot_bgcolor="white",
-        xaxis=Dict(
-            :linecolor => "black",
-            :showgrid => false,
-            :zeroline => true),
-        yaxis=Dict(
-            :showgrid => false,
-            :gridcolor => "black",
-            :linecolor => "black",
-            :zeroline => true
-        )
+        title="Wireless Energy Stored"
     )
 
     @onchange time_limit_energy begin
@@ -173,51 +200,13 @@ plotlayout_ = PlotlyBase.Layout(
             return
         end
 
-        plotdata_ = [get_energy_trace(time_limit_energy * 60 * 60)]
-
-        hours = time_limit_energy
-
-        tick_vals = [(i) * 60 for i in 0:hours]
-        tick_labels = [Dates.format(Dates.now() - Hour(i), "HH:MM") for i in reverse(0:hours)]
-
-        plotlayout_ = PlotlyBase.Layout(
-            title="Wireless Energy Stored in EU, $time_limit_energy Hours",
-            colorway="black", plot_bgcolor="white",
-            xaxis=Dict(
-                :linecolor => "black",
-                :showgrid => false,
-                :zeroline => true,
-                :dtick => "M1",
-                :tickvals => tick_vals,
-                :ticktext => tick_labels
-            ),
-            yaxis=Dict(
-                :showgrid => false,
-                :gridcolor => "black",
-                :linecolor => "black",
-                :zeroline => true,
-                :showexponent => "all",
-                :exponentformat => "e"
-            )
-        )
-
+        plotdata_, plotlayout_ = set_energy_plot(time_limit_energy, "energy")
     end
 
     @in time_limit_mspt = -1
     @out plotdata_mspt = []
     @out plotlayout_mspt = PlotlyBase.Layout(
-        title="Tick time in ms",
-        colorway="black", plot_bgcolor="white",
-        xaxis=Dict(
-            :linecolor => "black",
-            :showgrid => false,
-            :zeroline => true),
-        yaxis=Dict(
-            :showgrid => false,
-            :gridcolor => "black",
-            :linecolor => "black",
-            :zeroline => true
-        )
+        title="Tick time in ms"
     )
 
     @onchange time_limit_mspt begin
@@ -225,34 +214,15 @@ plotlayout_ = PlotlyBase.Layout(
             return
         end
 
-        plotdata_mspt = [get_mspt_trace(time_limit_mspt * 60 * 60)]
-        hours = time_limit_mspt
-
-        tick_vals = [(i) * 60 for i in 0:hours]
-        tick_labels = [Dates.format(Dates.now() - Hour(i), "HH:MM") for i in reverse(0:hours)]
-
-        plotlayout_mspt = PlotlyBase.Layout(
-            title="Tick Time in ms, $time_limit_mspt Hours",
-            colorway="black", plot_bgcolor="white",
-            xaxis=Dict(
-                :linecolor => "black",
-                :showgrid => false,
-                :zeroline => true,
-                :dtick => "M1",
-                :tickvals => tick_vals,
-                :ticktext => tick_labels
-            ),
-            yaxis=Dict(
-                :showgrid => false,
-                :gridcolor => "black",
-                :linecolor => "black",
-                :zeroline => true,
-                :showexponent => "all",
-                :exponentformat => "e"
-            )
-        )
-        @info "finished"
+        plotdata_mspt, plotlayout_mspt = set_energy_plot(time_limit_mspt, "mspt")
     end
+
+    @onchange isready begin
+        plotdata_, plotlayout_ = set_energy_plot(12, "energy")
+        plotdata_mspt, plotlayout_mspt = set_energy_plot(12, "mspt")
+    end
+
+
 end
 
 println("hello")
