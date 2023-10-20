@@ -8,7 +8,16 @@ using PlotlyBase
 
 
 function read_json()
-    return JSON.parsefile(pwd() * "/data/measurements/data.json", inttype=BigInt)
+
+    while true
+        try
+            data = JSON.parsefile(pwd() * "/data/measurements/data.json", inttype=BigInt)
+            return data
+        catch
+            @warn "Couldnt parse json, trying again"
+            sleep(1)
+        end
+    end
 end
 
 function parse_json_energy(json_file, time_limit)
@@ -201,6 +210,7 @@ plotlayout_ = PlotlyBase.Layout(
         end
 
         plotdata_, plotlayout_ = set_energy_plot(time_limit_energy, "energy")
+        @info "Plotted energy $time_limit_energy hours"
     end
 
     @in time_limit_mspt = -1
@@ -215,11 +225,13 @@ plotlayout_ = PlotlyBase.Layout(
         end
 
         plotdata_mspt, plotlayout_mspt = set_energy_plot(time_limit_mspt, "mspt")
+        @info "Plotted mspt $time_limit_mspt hours"
     end
 
     @onchange isready begin
-        plotdata_, plotlayout_ = set_energy_plot(12, "energy")
-        plotdata_mspt, plotlayout_mspt = set_energy_plot(12, "mspt")
+        plotdata_, plotlayout_ = set_energy_plot(4, "energy")
+        plotdata_mspt, plotlayout_mspt = set_energy_plot(4, "mspt")
+        @info "Plotted default"
     end
 
 
