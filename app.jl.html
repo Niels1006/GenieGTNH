@@ -1,0 +1,33 @@
+<body>
+
+    <div class="bgimg">
+        <h1 id="ilmf">
+            <span id="icwb">GTNH Server Statistics</span>
+        </h1>
+
+        <div class="row_plots">
+            <div class="plot_1">
+                <plotly class="plotly_plot" :data="plotdata_" :layout="plotlayout_"> </plotly>
+                <div class="energy_select_div">
+                    <div class="energy_button_holder">
+                        <button class="button_mspt" label="4 Hour" v-on:click="time_limit_energy=-1; time_limit_energy=4" >4 Hour</button>
+                        <button class="button_mspt" label="8 Hours" v-on:click="time_limit_energy=-1; time_limit_energy=8">8 Hours</button>
+                        <button class="button_mspt" label="12 Hours" v-on:click="time_limit_energy=-1; time_limit_energy=12">12 Hours</button>
+                        <button class="button_mspt" label="24 Hours" v-on:click="time_limit_energy=-1; time_limit_energy=24">24 Hours</button>
+                    </div>
+                </div>
+            </div>
+            <div class="plot_2">
+                <plotly class="plotly_plot" :data="plotdata_mspt" :layout="plotlayout_mspt"> </plotly>
+                <div class="energy_select_div">
+                    <div class="energy_button_holder">
+                        <button class="button_mspt" label="4 Hour" v-on:click="time_limit_mspt=-1; time_limit_mspt=4" >4 Hour</button>
+                        <button class="button_mspt" label="8 Hours" v-on:click="time_limit_mspt=-1; time_limit_mspt=8">8 Hours</button>
+                        <button class="button_mspt" label="12 Hours" v-on:click="time_limit_mspt=-1; time_limit_mspt=12">12 Hours</button>
+                        <button class="button_mspt" label="24 Hours" v-on:click="time_limit_mspt=-1; time_limit_mspt=24">24 Hours</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

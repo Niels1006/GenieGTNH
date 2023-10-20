@@ -1,0 +1,102 @@
+body,
+html {
+    height: 100%;
+    background-image: url("nhback-modified.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+
+.bgimg {
+    height: 100%;
+}
+
+#ilmf {
+    text-align: center;
+}
+
+#icwb {
+    background-color: rgba(254, 254, 254, 0);
+    font-size: 40px;
+    letter-spacing: normal;
+    color: white;
+}
+
+.energy_select_div {
+    height: 150px;
+    width: 100%;
+
+    position: relative;
+    background-color: rgba(76, 175, 80, 0);
+    
+}
+
+.energy_button_holder {
+    position: absolute;
+    border-radius: 15px;
+
+    height: 70px;
+    width: 600px;
+
+    top: 50%;
+    left: 50%;
+    margin: -35px 0 0 -300px;
+
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    column-gap: 30px;
+
+}
+
+.button_mspt {
+    border-radius: 15px;
+}
+
+.energy_select_list {
+    height: 50px;
+    width: 150px;
+    background-color: white;
+    position: absolute;
+    border-radius: 15px;
+
+    top: 50%;
+    left: 50%;
+    margin: -25px 0 0 -75px
+}
+
+.row_plots {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    /* background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), ; */
+    padding: 100px;
+    column-gap: 150px;
+}
+
+.plot_1 {
+    background-color: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), ;
+    grid-column: 1/2;
+    height: 750px;
+}
+
+.plot_2 {
+    background-color: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), ;
+    grid-column: 2/3;
+    height: 750px;
+    
+}
+
+.main-svg {
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.plotly_plot {
+    height: 600px;
+}
+
+.text-muted.credit {
+    visibility: hidden;
+}
